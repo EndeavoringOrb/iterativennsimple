@@ -3,6 +3,7 @@ from Sequential2D import Sequential2D
 from utils.timer import Timer
 import torch.nn as nn
 import torch
+import platform
 
 
 def benchmarkModel(
@@ -17,8 +18,6 @@ def benchmarkModel(
         n_iters, n_batch, *(input_shape[1:] if len(input_shape) == 4 else input_shape)
     )
 
-    print(model(x[0]))
-
     with Timer("Base"):
         for i in range(n_iters):
             model(x[i])
@@ -30,7 +29,6 @@ def benchmarkModel(
     print(seqModel.param_info())
     if visualize:
         seqModel.visualize()
-    print(seqModel(x[0]))
 
     with Timer("Seq2D"):
         for i in range(n_iters):
@@ -41,14 +39,13 @@ def benchmarkModel(
     for block in additional_blocks:
         seqModel.add_block(block)
     print(seqModel.param_info())
-    print(seqModel(x[0]))
 
     with Timer("Seq2DSparse"):
         for i in range(n_iters):
             seqModel(x[i])
-    
-    seqModel = torch.compile(seqModel)
-    print(seqModel(x[0]))
+
+    if platform.system() == "Linux":
+        seqModel = torch.compile(seqModel)
 
     with Timer("Seq2DSparse Compiled"):
         for i in range(n_iters):
@@ -71,7 +68,7 @@ if __name__ == "__main__":
         (2,),
         n_iters,
         n_batch,
-        additional_blocks=[(2, 60, 40, 40), (0, 1026, 2, 1)]
+        additional_blocks=[(2, 60, 40, 40), (0, 1026, 2, 1)],
     )
 
     # Test with linear layers

@@ -34,7 +34,6 @@ class BlockSparseMatrix:
         """Multiply block-sparse matrix with input vector x"""
         # x shape: (batch_size, total_cols)
         batch_size = x.shape[0]
-        x_cols = x.shape[1]
         result = torch.zeros(
             batch_size, self.total_rows, device=x.device, dtype=x.dtype
         )
