@@ -10,6 +10,9 @@ import pickle
 import torch
 from torchvision import datasets, transforms
 torch.manual_seed(0)
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import iterativennsimple
 from iterativennsimple.utils.save_data import save_data
 
@@ -189,7 +192,7 @@ transform = transforms.Compose([
 ])
 
 # Load the MNIST dataset
-mnist_dataset = datasets.MNIST(root='../data/external/', train=True, download=True, transform=transform)
+mnist_dataset = datasets.MNIST(root=base_dir / '../data/external/', train=True, download=True, transform=transform)
 
 # Define the number of digits and the dimensionality of each vector
 # num_digits = 60000
@@ -228,8 +231,8 @@ save_data(data_dir, name, start_data, target_data, x_y_index=vector_dim)
 # Electric Field Range Localization
 #########################
 name = 'EMlocalization'
-X = torch.load('../data/raw/EM_X_train.pt')
-Y = torch.load('../data/raw/EM_Y_train.pt')
+X = torch.load(base_dir / '../data/raw/EM_X_train.pt')
+Y = torch.load(base_dir / '../data/raw/EM_Y_train.pt')
 x_on = torch.cat((X, Y), dim=1)
 
 y_max = x_on[:, -1].max()
@@ -250,7 +253,7 @@ save_data(data_dir, name, start_data, target_data, x_y_index=160)
 #########################
 name = 'LunarLander'
 # Load the LunarLander dataset from a parquet file
-lunarlander_df = pd.read_parquet('../data/raw/lander_all_data.parquet')
+lunarlander_df = pd.read_parquet(base_dir / '../data/raw/lander_all_data.parquet')
 x_off = []
 x_on = []
 for i,state in enumerate(['random', 'trained', 'good', 'better']):
@@ -274,7 +277,7 @@ save_data(data_dir, name, start_data, target_data, x_y_index=404)
 #########################
 name = 'MassSpec'
 # Load the mass spec dataset from a parquet file
-mass_spec_df = pd.read_parquet('../data/raw/mass_spec.parquet')
+mass_spec_df = pd.read_parquet(base_dir / '../data/raw/mass_spec.parquet')
 
 # Reorder the columns so that the chemception features are at the end
 # This means moving columns 915-1426 to the end
