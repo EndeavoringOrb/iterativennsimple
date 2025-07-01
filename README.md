@@ -19,22 +19,17 @@ It is also intended as a way to get started with codespaces.  Codespaces is a wa
 
 Now, it is not the intention that your development will always be in the cloud.  It is expected that you will eventually want to run your code on your own computer (which is way more complicated, but definitely worth doing :-).  But, codespaces is a great way to get started.
 
-When you are ready for next steps then you can contact me at rcpaffenroth@wpi.edu
-
 ## How to use
 
 Open a terminal and run the following command to install pytorch, etc.
 
+Windows
 ```bash
-scripts/post-create.sh
+scripts/setup.bat
 ```
-
-## Tips and tricks
-
-Don't forget to set your Python environment.  The one used here is
-
+Linux
+```bash
+chmod +x scripts/setup.sh
+./scripts/setup.sh
 ```
-. venv/bin/python
-```
-
 

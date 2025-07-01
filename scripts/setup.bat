@@ -1,3 +1,4 @@
+pip install -U uv
 @if not exist .venv (
     uv venv
 )
